@@ -211,7 +211,7 @@ void	DoProjectMenu( int );
 void	DoRasterString( float, float, float, char * );
 void	DoStrokeString( float, float, float, float, char * );
 float	ElapsedSeconds( );
-void    drawCube(float, float, float, float);
+void    drawCube(float, float, float, float, float);
 void    drawFractal(float, float, float, float);
 void	InitGraphics( );
 void	InitLists( );
@@ -406,7 +406,7 @@ Display( )
 
 	// set the eye position, look-at position, and up-vector:
 
-	gluLookAt( 0.f, 0.f, 3.f,     0.f, 0.f, 0.f,     0.f, 1.f, 0.f );
+	gluLookAt( 1.f, 2.f, 4.f,     0.f, 0.f, 0.f,     0.f, 1.f, 0.f );
 
 	// rotate the scene:
 
@@ -818,14 +818,14 @@ InitGraphics( )
 //  with a call to glCallList( )
 //
 
-void drawCube(float boxSize, float offsetX, float offsetY, float offsetZ)
+void drawCube(float boxSize, float offsetX, float offsetY, float offsetZ, float intensity)
 {
 	float dx = boxSize / 2.f;
 	float dy = boxSize / 2.f;
 	float dz = boxSize / 2.f;
 		glBegin( GL_QUADS );
 
-			glColor3f( 1., 0., 0. );
+			glColor3f( 1.0, intensity, 0. );
 
 				glNormal3f( 1., 0., 0. );
 					glVertex3f(  dx+offsetX, -dy+offsetY,  dz+offsetZ );
@@ -839,7 +839,7 @@ void drawCube(float boxSize, float offsetX, float offsetY, float offsetZ)
 					glVertex3f( -dx+offsetX,  dy+offsetY, -dz+offsetZ );
 					glVertex3f( -dx+offsetX, -dy+offsetY, -dz+offsetZ );
 
-			glColor3f( 0., 1., 0. );
+			glColor3f( 0., 1.0, intensity );
 
 				glNormal3f(0., 1., 0.);
 					glVertex3f( -dx+offsetX,  dy+offsetY,  dz+offsetZ );
@@ -853,7 +853,7 @@ void drawCube(float boxSize, float offsetX, float offsetY, float offsetZ)
 					glVertex3f(  dx+offsetX, -dy+offsetY, -dz+offsetZ );
 					glVertex3f(  dx+offsetX, -dy+offsetY,  dz+offsetZ );
 
-			glColor3f(0., 0., 1.);
+			glColor3f(intensity, 0., 1.0);
 
 				glNormal3f(0., 0., 1.);
 					glVertex3f(-dx+offsetX, -dy+offsetY, dz+offsetZ);
@@ -872,7 +872,8 @@ void drawCube(float boxSize, float offsetX, float offsetY, float offsetZ)
 
 void drawFractal(float boxSize, float offsetX, float offsetY, float offsetZ) 
 {
-    drawCube(boxSize, offsetX, offsetY, offsetZ);
+    printf("%f \n", boxSize);
+    drawCube(boxSize, offsetX, offsetY, offsetZ, boxSize);
     if (boxSize <= MIN_BOXSIZE)
         return;
 
